@@ -5,7 +5,7 @@ import (
 	"time"
 )
 
-var DefaultArraySizes = []int{10, 25, 50, 100, 250, 500, 1000, 2000}
+var DefaultArraySizes = []int{10, 25, 50, 100, 250, 500, 1000, 2000, 3000}
 var Limit = 1000
 
 func randomInt() (num int) {

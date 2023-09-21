@@ -61,7 +61,7 @@ func Start() {
 			startMs := time.Now()
 			ms.Sort(arrSize, msArr)
 			endMs := time.Now()
-			fmt.Printf("Time took for merge sort the list of size %d is: %s\n", arrSize, endMs.Sub(startMs))
+			fmt.Printf("Time took for merge sort the list of size %d is: %d\n", arrSize, endMs.Sub(startMs).Nanoseconds())
 
 			//fmt.Println("INFO: Array after performing merge sort")
 			//for i := 0; i < len(msArr); i++ {
@@ -74,7 +74,7 @@ func Start() {
 			startIns := time.Now()
 			ins.Sort(arrSize, insArr)
 			endIns := time.Now()
-			fmt.Printf("Time took for insertion sort the list of size %d is: %s\n", arrSize, endIns.Sub(startIns))
+			fmt.Printf("Time took for insertion sort the list of size %d is: %d\n", arrSize, endIns.Sub(startIns).Nanoseconds())
 
 			//fmt.Println("INFO: Array after performing insertion sort")
 			//for i := 0; i < len(msArr); i++ {
@@ -119,7 +119,7 @@ func Start() {
 		ss.Sort(arrSize, arr)
 		end := time.Now()
 
-		fmt.Println("Time took to sort the list is:", end.Sub(start))
+		fmt.Println("Time took to sort the list is:", end.Sub(start).Nanoseconds())
 		//fmt.Println("INFO: Array after performing sort")
 		//for i := 0; i < len(arr); i++ {
 		//	fmt.Printf("%d ", *arr[i])
@@ -136,5 +136,5 @@ func PrintSortOption() {
 }
 
 func PrintNSize() {
-	fmt.Println("Choose the size of the array from the list [10, 25, 50 100, 250 and 500]:")
+	fmt.Println("Choose the size of the array from the list [10, 25, 50 100, 250 and 500, 1000, 2000]:")
 }
