@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"msis/pkg/arrgen"
 	"msis/pkg/factory/sort"
+	"msis/pkg/models"
+	"msis/pkg/plot"
 	"msis/pkg/utils"
 	"os"
 	"strconv"
@@ -44,6 +46,9 @@ func Start() {
 			os.Exit(1)
 		}
 
+		msTimes := []models.SortTime{}
+		insTimes := []models.SortTime{}
+
 		for _, arrSize := range arrgen.DefaultArraySizes {
 			arr, err := arrgen.Generate(arrSize)
 			if err != nil {
@@ -51,23 +56,15 @@ func Start() {
 				os.Exit(1)
 			}
 
-			//fmt.Println("INFO: Array before sorting")
-			//for i := 0; i < len(arr); i++ {
-			//	fmt.Printf("%d ", *arr[i])
-			//}
-			//fmt.Println()
-
 			msArr := arrgen.CopyArr(arr)
 			startMs := time.Now()
 			ms.Sort(arrSize, msArr)
 			endMs := time.Now()
 			fmt.Printf("Time took for merge sort the list of size %d is: %d\n", arrSize, endMs.Sub(startMs).Nanoseconds())
-
-			//fmt.Println("INFO: Array after performing merge sort")
-			//for i := 0; i < len(msArr); i++ {
-			//	fmt.Printf("%d ", *msArr[i])
-			//}
-			//fmt.Println()
+			msTimes = append(msTimes, models.SortTime{
+				Size:      arrSize,
+				TimeTaken: endMs.Sub(startMs).Nanoseconds(),
+			})
 
 			insArr := arrgen.CopyArr(arr)
 
@@ -75,13 +72,22 @@ func Start() {
 			ins.Sort(arrSize, insArr)
 			endIns := time.Now()
 			fmt.Printf("Time took for insertion sort the list of size %d is: %d\n", arrSize, endIns.Sub(startIns).Nanoseconds())
+			insTimes = append(insTimes, models.SortTime{
+				Size:      arrSize,
+				TimeTaken: endIns.Sub(startIns).Nanoseconds(),
+			})
 
-			//fmt.Println("INFO: Array after performing insertion sort")
-			//for i := 0; i < len(msArr); i++ {
-			//	fmt.Printf("%d ", *msArr[i])
-			//}
 			fmt.Println()
 		}
+
+		filename := "points.png"
+		fmt.Println("INFO: Plotting graph ...")
+		if err := plot.PlotGraph(insTimes, msTimes, filename); err != nil {
+			fmt.Println("ERROR: Unable to plot graph. Because:", err.Error())
+			os.Exit(1)
+		}
+
+		fmt.Println("INFO: Graph plotted and saved as", filename)
 
 	} else {
 		PrintNSize()
@@ -109,22 +115,11 @@ func Start() {
 			os.Exit(1)
 		}
 
-		//fmt.Println("INFO: Array before sorting")
-		//for i := 0; i < len(arr); i++ {
-		//	fmt.Printf("%d ", *arr[i])
-		//}
-		//fmt.Println()
-
 		start := time.Now()
 		ss.Sort(arrSize, arr)
 		end := time.Now()
 
 		fmt.Println("Time took to sort the list is:", end.Sub(start).Nanoseconds())
-		//fmt.Println("INFO: Array after performing sort")
-		//for i := 0; i < len(arr); i++ {
-		//	fmt.Printf("%d ", *arr[i])
-		//}
-		//fmt.Println()
 	}
 }
 
